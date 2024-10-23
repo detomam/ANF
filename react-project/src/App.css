@@ -1,0 +1,86 @@
+.MyApp {
+  text-align: center;
+}
+
+.MyApp-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+}
+
+body {
+  background-color: #20303B;
+}
+
+/*
+colors !
+orange - F6A02E
+black - 3D5F6E
+white - F3F3EB
+blue - A0C2DA
+green - 63CA64
+*/
+
+.orange {
+  color: #F6A02E
+}
+.black {
+  color: #20303B
+}
+.white {
+  color: #F3F3EB
+}
+.blue {
+  color: #A0C2DA
+}
+.gray {
+  color: #3E525B
+}
+
+/* adding this line to test committing again */
+
+.bg-orange {
+  background-color: #F6A02E
+}
+.bg-black {
+  background-color: #20303B
+}
+.bg-white {
+  background-color: #F3F3EB
+}
+.bg-blue {
+  background-color: #A0C2DA
+}
+.bg-gray {
+  background-color: #3E525B
+}
+
+/*
+textbox input
+*/
+.textarea {
+  width: 90%;
+  height: 150px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  resize: none;
+  margin: 0 auto;
+  display: block;
+  border-radius: 20px;
+  resize: none;
+}
+
+.white::placeholder {
+  color: #F3F3EB;
+  opacity: 0.5;
+}
+
+.messaging {
+   overflow: 'auto';
+   height:400px;
+}
