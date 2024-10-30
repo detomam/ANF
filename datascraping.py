@@ -2,12 +2,13 @@ import os
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
+import fitz  # PyMuPDF
 
 # URL of the main webpage with subsections
 base_url = "https://www.iso-ne.com/participate/rules-procedures"
 
-# Path to save downloaded PDFs
-save_path = r"C:\Users\Srikiran\OneDrive\Documents\CS 320\ISO Website"
+# Path to save downloaded PDFs and extracted text files
+save_path = r"C:\Users\ishit\Downloads\320 iso"
 
 # Create the directory if it doesn't exist
 if not os.path.exists(save_path):
@@ -22,14 +23,38 @@ def download_pdf(pdf_url, save_path):
             file_name = pdf_url.split("/")[-1]
             file_path = os.path.join(save_path, file_name)
             
-            # Write the content to a file
+            # Write the content to a PDF file
             with open(file_path, 'wb') as file:
                 file.write(response.content)
             print(f"Downloaded: {file_name}")
+
+            # Extract text to a .txt file
+            extract_text_from_pdf(file_path, save_path)
+
         else:
             print(f"Failed to download: {pdf_url}")
     except Exception as e:
         print(f"Error downloading {pdf_url}: {e}")
+
+# Function to extract text from a PDF and save it as a .txt file
+def extract_text_from_pdf(pdf_path, save_path):
+    try:
+        # Open the PDF file
+        with fitz.open(pdf_path) as pdf:
+            # Define the text file path
+            text_file_name = os.path.splitext(os.path.basename(pdf_path))[0] + ".txt"
+            text_file_path = os.path.join(save_path, text_file_name)
+
+            # Extract text from each page
+            with open(text_file_path, "w", encoding="utf-8") as text_file:
+                for page_num in range(pdf.page_count):
+                    page = pdf[page_num]
+                    text = page.get_text()
+                    text_file.write(text)
+
+            print(f"Extracted text saved to: {text_file_name}")
+    except Exception as e:
+        print(f"Error extracting text from {pdf_path}: {e}")
 
 # Function to scrape all PDFs from a given subsection URL
 def scrape_pdfs_from_url(url, save_path):
@@ -46,7 +71,7 @@ def scrape_pdfs_from_url(url, save_path):
                 # Make the full URL if the link is relative
                 pdf_url = urljoin(url, href)
                 
-                # Download the PDF
+                # Download the PDF and extract its text
                 download_pdf(pdf_url, save_path)
     else:
         print(f"Failed to retrieve the webpage: {url}. Status code: {response.status_code}")
@@ -72,6 +97,6 @@ if response.status_code == 200:
             # Step 3: Scrape PDFs from each subsection
             scrape_pdfs_from_url(subsection_url, save_path)
 
-    print("All PDFs downloaded.")
+    print("All PDFs downloaded and text extracted.")
 else:
     print(f"Failed to retrieve the main webpage. Status code: {response.status_code}")
