@@ -37,7 +37,7 @@ export default function MyApp() {
             <div
               className="message-container"
               key={index}
-              onMouseEnter={() => setHoveredIndex(index)}
+              onMouseEnter={() => !message.isUser? setHoveredIndex(index): null}
               onMouseLeave={() => setHoveredIndex(null)}
             >
               <div className={`message ${message.isUser ? 'user bg-orange' : 'bot bg-black'}`}>
@@ -48,7 +48,8 @@ export default function MyApp() {
                 <div className={`username ${message.isUser ? 'user orange' : 'bot black'}`}>
                   {message.isUser ? 'You' : 'Alissa'}
                   </div>
-                {hoveredIndex === index && (
+                  {console.log(index)}
+                {(hoveredIndex === index || hoveredIndex + 1 === index) && (
                 (!message.isUser && (
                   <div className="thumbs-container">
                     <img
