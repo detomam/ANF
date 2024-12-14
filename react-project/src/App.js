@@ -12,20 +12,39 @@ export default function MyApp() {
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
   // send a message to the bot
-  const sendQuery = (query) => {
+  const sendQuery = async (query) => {
     //make a new message to display for user
     let updatedMessages = [...messages, {message: query, isUser: 1}];
     
     // TODO: Get BOT response then send new message in chat
         // for now just echo back original message
-    updatedMessages = [...updatedMessages, {message: "Response to " + query, isUser: 0}];
-    
-    //update messages
-    setMessages(updatedMessages);
+        try {
+          const response = await fetch("http://127.0.0.1:8000/process-query", {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ query }),
+          });
 
-    //clear the input box
-    document.getElementById("inputBox").value = "";
-  }
+          if (!response.ok) {
+              throw new Error("Failed to fetch response from server");
+          }
+
+          const data = await response.json();
+          // Add the bot's response to the chat
+          updatedMessages = [...updatedMessages, { message: data.response, isUser: 0 }];
+          setMessages(updatedMessages);
+      } catch (error) {
+          console.error("Error:", error);
+          updatedMessages = [...updatedMessages, { message: "Error fetching response", isUser: 0 }];
+          setMessages(updatedMessages);
+      }
+
+      // Clear the input box
+      setQuery("");
+      document.getElementById("inputBox").value = "";
+  };
   
   return (
     <div className="app">
