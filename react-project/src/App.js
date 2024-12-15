@@ -1,15 +1,11 @@
 import './App.css';
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import SendIcon from "./send.svg";
-import tUpIcon from "./thumb-up-svgrepo-com.svg";
-import tDownIcon from "./thumb-down-svgrepo-com.svg";
-
-import Message from "./message";
+import Logo from './logo.png';
 
 export default function MyApp() {
   const [messages, setMessages] = useState([]);
   const [query, setQuery] = useState('');
-  const [hoveredIndex, setHoveredIndex] = useState(null);
 
   // send a message to the bot
   const sendQuery = async (query) => {
@@ -48,66 +44,52 @@ export default function MyApp() {
   
   return (
     <div className="app">
-      <h1 className="MyApp white">Alissaa</h1>
+    <h1 className="MyApp white">
+      Ask ALISSAA
+      <img className="logo" src={Logo} alt="Logo" />
+    </h1>
       <div className="messaging bg-white">
         {messages?.length > 0 ? (
           <div className="container">
-          {messages.map((message, index) => (
-            <div
-              className="message-container"
-              key={index}
-              onMouseEnter={() => !message.isUser? setHoveredIndex(index): null}
-              onMouseLeave={() => setHoveredIndex(null)}
-            >
-              <div className={`message ${message.isUser ? 'user bg-orange' : 'bot bg-black'}`}>
-                {message.message}
-              </div>
-
+            {messages.map((message, index) => (
+              <div
+                className="message-container"
+                key={index}
+              >
+                <div className={`message ${message.isUser ? 'user bg-orange' : 'bot bg-black'}`}>
+                  {message.message}
+                </div>
                 <div className={`message-actions ${message.isUser ? 'user' : 'bot'}`}>
-                <div className={`username ${message.isUser ? 'user orange' : 'bot black'}`}>
-                  {message.isUser ? 'You' : 'Alissa'}
+                  <div className={`username ${message.isUser ? 'user orange' : 'bot black'}`}>
+                    {message.isUser ? 'You' : 'Alissaa'}
                   </div>
-                  {console.log(index)}
-                {(hoveredIndex === index || hoveredIndex + 1 === index) && (
-                (!message.isUser && (
-                  <div className="thumbs-container">
-                    <img
-                    className="thumb"
-                    src={tUpIcon}
-                    alt="thumb up"
-                    onClick={() => alert("like")}
-                    />
-
-                    <img
-                    className="thumb"
-                    src={tDownIcon}
-                    alt="thumb down"
-                    onClick={() => alert("dislike")}
-                    />
-                  </div>
-                  ))
-              )}
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div className="empty">No messages yet.</div>
+            ))}
+          </div>
+        ) : (
+          <div className="empty">No messages yet.</div>
         )}
       </div>
       <div className="input">
         <div className="textarea-container">
-          <textarea
-              className="textarea white bg-gray"
-              id="inputBox"
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Write something..">
-          </textarea>
+        <textarea
+          className="textarea white bg-gray"
+          id="inputBox"
+          onChange={(e) => setQuery(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && query.trim().length !== 0) {
+              e.preventDefault(); // Prevent a new line from being added
+              sendQuery(query);
+            }
+          }}
+          placeholder="Write something..">
+        </textarea>
           <img
-              className="send"
-              src={SendIcon}
-              alt="send"
-              onClick={() => (query.length !== 0) ? sendQuery(query) : null}
+            className="send"
+            src={SendIcon}
+            alt="send"
+            onClick={() => (query.length !== 0) ? sendQuery(query) : null}
           />
         </div>
       </div>

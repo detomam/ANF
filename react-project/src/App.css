@@ -8,10 +8,12 @@ body {
 
 .MyApp {
   text-align: center;
-  font-size: 2rem;
+  font-size: 3rem;
   font-weight: bold;
   padding: 20px;
   color: #F3F3EB;
+  letter-spacing: 2px; /* Increase spacing between letters */
+  word-spacing: 7x; /* Increase spacing between words */
 }
 
 .orange {
@@ -54,16 +56,13 @@ body {
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   margin: 20px auto;
   width: 90%;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
 }
 
 .message-container {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
   position: relative;
+  margin: 15px 0;
+  padding: 10px 20px;
+  font-size: 1rem;
 }
 
 .message {
@@ -75,23 +74,36 @@ body {
   overflow-wrap: break-word;
   margin: 5px 0;
   line-height: 1.5;
-  font-size: 0.95rem;
+  font-size: 1.2rem;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.15);
   transition: transform 0.1s ease-in-out;
   position: relative;
 }
 
 .message.user {
-  align-self: flex-end;
-  background-color: #F6A02E;
-  color: #20303B;
+  max-width: 60%;
+  width: fit-content;
+  padding: 15px 20px;
+  border-radius: 30px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  margin: 5px 0;
+  line-height: 1.5;
+  font-size: 1.2rem;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.15);
+  transition: transform 0.1s ease-in-out;
+  position: relative;
+}
+
+.message.user {
+  margin-left: auto;
+  margin-right: 0;
   border-bottom-right-radius: 5px;
 }
 
 .message.bot {
-  align-self: flex-start;
-  background-color: #3E525B;
   color: #F3F3EB;
+  margin-right: auto;
   border-bottom-left-radius: 5px;
 }
 
@@ -134,20 +146,20 @@ body {
 }
 
 .input {
-  display: block;
+  display: flex;
+  justify-content: center;
   width: 100%;
 }
 
 .textarea-container {
   position: relative;
-  width: 80%; /* Adjusted width to make the input box shorter */
-  display: flex;
-  justify-content: center;
+  width: 80%;
+  right: 15px;
 }
 
 .textarea {
   width: 100%;
-  height: 3em; /* Set the height to be flexible */
+  height: 80px;
   border-radius: 15px;
   padding: 15px;
   font-size: 1rem;
@@ -157,32 +169,24 @@ body {
   background-color: #3E525B;
   resize: none;
   box-shadow: inset 0px 2px 5px rgba(0, 0, 0, 0.1);
-  padding-right: 3em; /* Added flexible space for the icon */
-}
-
-.textarea:hover::placeholder {
-  color: #F3F3EB;
-  opacity: 0.6;
 }
 
 .textarea::placeholder {
   color: #F3F3EB;
-  opacity: 0.4;
 }
 
 .send {
   position: absolute;
-  right: 0.5em; /* Adjusted for the right margin inside the textarea */
-  top: 50%; /* Vertically center the icon */
-  transform: translateY(-50%); /* Center the icon vertically */
-  width: 60%; /* Size relative to the textarea height */
-  height: 60%; /* Enlarge the icon relative to the input box height */
+  right: 20px;
+  bottom: 30px;
+  width: 60px;
+  height: 60px;
   cursor: pointer;
   transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
 }
 
 .send:hover {
-  transform: scale(1.2);
+  transform: scale(1.1);
   opacity: 0.8;
 }
 
@@ -205,19 +209,9 @@ body {
   border-radius: 5px;
 }
 
-.thumbs-container {
-  display: flex;
-  gap: 10px;
-  margin-top: 5px;
-}
-
-.thumb {
-  width: 25px;
-  height: 25px;
-  cursor: pointer;
-  transition: transform 0.2s ease-in-out;
-}
-
-.thumb:hover {
-  transform: scale(1.2);
+.logo {
+  width: 50px;
+  height: 50px;
+  object-fit: contain; /* Ensures the image scales correctly */
+  margin-left: 15px;
 }
